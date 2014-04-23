@@ -6,11 +6,13 @@
 
 #include <iostream>
 #include <fstream>
+#include <wiringPi.h>
 
 using namespace std;
 
 int main()
 {
+	wiringPiSetup();
 	int STRSIZE = 256;
 	char str[STRSIZE];
 	char c;

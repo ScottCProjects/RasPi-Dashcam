@@ -5,19 +5,21 @@
 //============================================================
 
 #include <iostream>
+#include <string>
 #include <fstream>
 #include <thread>
 
 using namespace std;
 
-#define NUMFILES 4
-#define CHARS_PER_FILE 150
+#define NUMFILES 10
+#define CHARS_PER_FILE 10000
 //#define NUMSTREAMS 2
 
-void openFile( ofstream &f, string filename )
+void openFile( ofstream *f, string filename )
 {
 	cout << "Opening: " << filename << endl;
-	f.open( filename, ios::out );
+	(*f).close();
+	(*f).open( filename, ios::out );
 }
 
 void closeFile( ofstream &f )
@@ -28,7 +30,7 @@ void closeFile( ofstream &f )
 // Generate filename
 string filename( string prefix, int num )
 {
-	return prefix + string( itoa(num) ) + ".h264";
+	return prefix + string( std::to_string(static_cast<long long>(num)) ) + ".h264";
 }
 
 int main()
@@ -36,23 +38,24 @@ int main()
 	cout << "Starting..." << endl;
 	// Setup everything
 	char c;
-	ofstream output[NUMSTREAMS];
+	ofstream output[2];
 	string fnamePrefix = "test";
 	int numFiles = 4;
 	int fileNum = 1;
 	int streamNum = 0;
 
 	// Open up the first file
-	openFile( output[streamNum], filename(fnamePrefix, fileNum) );
+	openFile( &output[streamNum], filename(fnamePrefix, fileNum) );
 	
 	// Loop for each file output
-	for( int iteration = 0; iteration < 10; ++iteration )
+	while( cin.good() )
 	{
 		// Set fileNum for next file
 		if( ++fileNum > NUMFILES ) fileNum = 1;
-cout << "FileNum: " << fileNum << "\nOutStream: " << streamNum << endl;
+cout << "FileNum: " << fileNum-1 << "\nOutStream: " << streamNum << endl;
 		// Open next file
-		openFile( output[1 - streamNum], filename(fnamePrefix, fileNum) );
+		//thread t( openFile, &output[1 - streamNum], filename(fnamePrefix, fileNum) );
+		openFile( &output[1 - streamNum], filename(fnamePrefix, fileNum) );
 
 		// Loop for number of characters in one file
 		if( cin.good() )
@@ -67,8 +70,16 @@ cout << "FileNum: " << fileNum << "\nOutStream: " << streamNum << endl;
 		streamNum = 1 - streamNum;
 	}
 
-	outfile.close();
+	output[0].close();
+	output[1].close();
 	
 	cout << "Done." << endl;
 	return 0;
 }
+
+
+
+
+
+
+
