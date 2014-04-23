@@ -38,8 +38,8 @@ int main()
 	int fileNum = 1;
 
 	// Open up the first file
-	thread( openFile, output[0], filename(fnamePrefix, fileNum) );
-	/*
+	openFile( output[0], filename(fnamePrefix, fileNum) );
+	
 	// Loop
 	for( int i = 0, out = 0; i < 10; ++i )
 	{
@@ -55,7 +55,7 @@ int main()
 	}
 
 	outfile.close();
-	*/
+	
 	cout << "Done." << endl;
 	return 0;
 }
