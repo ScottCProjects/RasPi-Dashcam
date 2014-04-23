@@ -8,7 +8,7 @@ outFile="$prefix"All.h264
 
 echo Output File: $outFile
 
-cat /dev/null > $outFile
+cat START.h264 > $outFile
 
 declare -i i
 i=$startNum
