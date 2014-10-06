@@ -12,7 +12,7 @@
 
 using namespace std;
 
-#define NUMFILES 10
+#define NUMFILES 20
 #define CHARS_PER_FILE 1000000
 //#define NUMSTREAMS 2
 #define AMP_PIN 0
@@ -72,7 +72,7 @@ int main()
 	{
 		// Set fileNum for next file
 		if( ++fileNum > NUMFILES ) fileNum = 1;
-		cout << "FileNum: " << fileNum-1 << "\nOutStream: " << streamNum << endl;
+		cout << "FileNum: " << fileNum << "\nOutStream: " << streamNum << endl;
 		// Open next file
 		//thread t( openFile, &output[1 - streamNum], filename(fnamePrefix, fileNum) );
 		openFile( &output[1 - streamNum], filename(fnamePrefix, fileNum) );
