@@ -89,8 +89,10 @@ int main( int argc, char** argv )
 	while( cin.good() && mainPower )
 	{
 		// Get next file ready and open the stream
-		setupNextFileStream(
-				fileNum, streamNum, output, fnamePrefix );
+		std::thread doSetup( setupNextFileStream,
+				std::ref(fileNum), std::ref(streamNum),
+				std::ref(output), std::ref(fnamePrefix) );
+		doSetup.detach();
 
 		// Loop for number of characters in one file
 		if( cin.good() )

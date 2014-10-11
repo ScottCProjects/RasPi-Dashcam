@@ -1,5 +1,9 @@
 #! /bin/bash
 
+# arg1 = Prefix of output files
+# arg2 = Total number of output files
+# arg3 = File number last recorded over. Will be 0 bytes in size
+
 prefix=$1
 numFiles=$2
 startNum=$3
