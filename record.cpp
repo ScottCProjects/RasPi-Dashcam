@@ -14,7 +14,7 @@
 using namespace std;
 
 #define NUMFILES 20 // Arg specified in Makefile overwrites this default
-#define CHARS_PER_FILE 1000000
+#define CHARS_PER_FILE 500000
 #define NUMSTREAMS 2
 #define AMP_PIN 0
 
@@ -116,17 +116,6 @@ int main( int argc, char** argv )
 		doSetup.detach();
 
 		// Loop for number of characters in one file
-		/* OLD WAY OF GETTING CHARS, SINGULARLY WITH NO BUFFER
-		c = cin.get();
-		for( int i = 0; i < CHARS_PER_FILE && cin.good(); ++i )
-		{
-			output[streamNum].put(c);
-			c = cin.get();
-		}*/
-		// **REMINDER**
-		// NEED TO USE GCOUNT - 1 TO IGNORE NULL CHAR
-		//   Or does "write" already ignore the null?
-		// ************
 		cin.read(cStr, CIN_BUFFER_SIZE);
 		for( int i = cin.gcount(); i < CHARS_PER_FILE && cin.good();
 				i += cin.gcount() )

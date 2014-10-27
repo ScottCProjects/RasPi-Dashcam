@@ -50,6 +50,11 @@ v0.1 - 4/23/2014: "Woo it works!"
 
 TO DO:
 
+- Create folder structure for source, binaries, and outputs
+
+- Make NUMFILES and CHARS_PER_FILE to be generated based on time parameters
+  	Such as "RecordTime = 20 minutes" (total between all files) and "VideoFileSize = 2 seconds"
+
 - Add check at beginning to ensure MainPower is connected before starting.
   	Currently only listens for rising edge, not if pin is already held high.
 
