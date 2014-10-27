@@ -1,5 +1,5 @@
 RasPi-Dashcam
-  Dash-mounted camera using Raspberry Pi and Pi Cam
+Dash-mounted Camera using Raspberry Pi and Pi Cam
 =============
 
 
@@ -75,15 +75,11 @@ TO DO:
 	constantly as it should.
 
 - Efficiencies to improve, w/ [Effect on efficiency]:
-  1. [MODERATE] cin.get() for each byte instead of by blocks
-				Getting in blocks would lower the number of loops
-				required to take in feed. Was using just .get() because I
-				ran into issues when grabbing multiple bytes at a time.
-  2. [UNKNOWN] Shell piping into program
+  1. [UNKNOWN] Shell piping into program
 				Currently using pipe in bash to get feed into program.
 				Using another method independent of the shell may be
 				more efficient.
-  3. [MINIMAL] Opening and closing so many files
+  2. [MINIMAL] Opening and closing so many files
 				Not sure of a way around this. Need to open and close
 				files for each x number of bytes in order to prevent curruption
 				of older video with power loss. The shorter each file, the less
