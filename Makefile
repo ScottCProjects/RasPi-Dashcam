@@ -1,7 +1,11 @@
 CC=g++-4.8
 CFLAGS=-std=c++11 -lwiringPi
+
 REC_BINARY=record.out
 OUTFILE_PREFIX=test
+NUM_FILES=20
+
+EXEC_ARGS=$(OUTFILE_PREFIX) $(NUM_FILES)
 
 
 all:
@@ -12,7 +16,7 @@ threadTesting:
 
 
 exec:
-	raspivid -n -t 99999 -o - | sudo ./$(REC_BINARY) $(OUTFILE_PREFIX)
+	raspivid -n -t 0 -o - | sudo ./$(REC_BINARY) $(EXEC_ARGS)
 
 clean:
 	rm $(REC_BINARY) *.out
