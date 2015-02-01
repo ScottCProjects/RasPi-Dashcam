@@ -1,5 +1,5 @@
 RasPi-Dashcam
-  Dash-mounted camera using Raspberry Pi and Pi Cam
+Dash-mounted Camera using Raspberry Pi and Pi Cam
 =============
 
 
