@@ -1,5 +1,6 @@
 CC=g++-4.8
 CFLAGS=-std=c++11 -lwiringPi
+SRC_DIR=
 
 REC_BINARY=record.out
 OUTFILE_PREFIX=test
@@ -16,7 +17,10 @@ threadTesting:
 
 
 exec:
-	raspivid -n -t 0 -o - | sudo ./$(REC_BINARY) $(EXEC_ARGS)
+	raspivid -n -t 0 -b 10000 -g 1 -o - | tee test.h264 | sudo ./$(REC_BINARY) $(EXEC_ARGS)
+
+concat:
+	./concatAll.sh $(OUTFILE_PREFIX) $(NUM_FILES)
 
 clean:
 	rm $(REC_BINARY) *.out

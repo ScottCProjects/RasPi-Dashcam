@@ -49,6 +49,16 @@ v0.1 - 4/23/2014: "Woo it works!"
 ================================================
 
 TO DO:
+- [ISSUE] Multiple output files are being left empty, 0 bytes in size.
+  	Might have to do with the loop conditions for the output to each
+	file. Perhaps the "cin.gcount()" that I'm using is not updating as
+	quickly as I need it to.
+- [ISSUE] Fix tearing on video. Only seems to be caused by my program,
+  	does not happen with direct output of same video. Seem to be losing
+	just a few bytes every few seconds. Verified bytes in first h264 file
+	are the same in both, but bytes in second output file differ.
+	Trying different raspivid args to resolve, such as bitrate and
+	framerate changes.
 
 - Create folder structure for source, binaries, and outputs
 
@@ -75,15 +85,11 @@ TO DO:
 	constantly as it should.
 
 - Efficiencies to improve, w/ [Effect on efficiency]:
-  1. [MODERATE] cin.get() for each byte instead of by blocks
-				Getting in blocks would lower the number of loops
-				required to take in feed. Was using just .get() because I
-				ran into issues when grabbing multiple bytes at a time.
-  2. [UNKNOWN] Shell piping into program
+  1. [UNKNOWN] Shell piping into program
 				Currently using pipe in bash to get feed into program.
 				Using another method independent of the shell may be
 				more efficient.
-  3. [MINIMAL] Opening and closing so many files
+  2. [MINIMAL] Opening and closing so many files
 				Not sure of a way around this. Need to open and close
 				files for each x number of bytes in order to prevent curruption
 				of older video with power loss. The shorter each file, the less
