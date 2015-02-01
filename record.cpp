@@ -21,8 +21,8 @@ using namespace std;
 
 void openFile( ofstream &f, string filename )
 {
-	cout << "Opening: " << filename << endl;
 	f.close();
+	cout << "Opening: " << filename << endl;
 	f.open( filename, ios::out );
 }
 
@@ -116,7 +116,7 @@ int main( int argc, char** argv )
 				std::ref(output), std::ref(fnamePrefix),
 				std::ref(numFiles) );
 		// Detach thread and forget about it
-		doSetup.detach();
+		//doSetup.detach();
 
 		// Read the first chunk
 		//cin.read(cStr, CIN_BUFFER_SIZE);
@@ -132,6 +132,7 @@ int main( int argc, char** argv )
 
 		// Set streamNum for next iteration
 		streamNum = 1 - streamNum;
+		doSetup.join();
 	}
 
 	// Tell me which condition failed

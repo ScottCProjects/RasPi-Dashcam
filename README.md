@@ -2,7 +2,6 @@ RasPi-Dashcam
 Dash-mounted Camera using Raspberry Pi and Pi Cam
 =============
 
-
 INSTRUCTIONS:
 
 Compile record.cpp with:
@@ -25,6 +24,10 @@ DEPENDENCIES:
 
 REVISION HISTORY:
 
+v0.2.1 - 1/31/2015
+		* Fixed Issue #002: Multiple zero length output files.
+		+ concatAll script now finds correct file to start with (zero
+			length) on its own, instead of needing it to be passed in.
 
 v0.2 - 10/26/2014
 		* Re-implemented I/O using "istream.read" with a buffer instead of ".get" without
@@ -47,21 +50,39 @@ v0.1 - 4/23/2014: "Woo it works!"
 
 
 ================================================
+ISSUE LOG
+================================================
 
-TO DO:
-- [ISSUE] Multiple output files are being left empty, 0 bytes in size.
-  	Might have to do with the loop conditions for the output to each
-	file. Perhaps the "cin.gcount()" that I'm using is not updating as
-	quickly as I need it to.
-- [ISSUE] Fix tearing on video. Only seems to be caused by my program,
+[001] - Fix tearing on video. Only seems to be caused by my program,
   	does not happen with direct output of same video. Seem to be losing
 	just a few bytes every few seconds. Verified bytes in first h264 file
 	are the same in both, but bytes in second output file differ.
 	Trying different raspivid args to resolve, such as bitrate and
 	framerate changes.
 
-- Create folder structure for source, binaries, and outputs
 
+
+RESOLVED:
+[002] - Multiple output files are being left empty, 0 bytes in size.
+  	Might have to do with the loop conditions for the output to each
+	file. Perhaps the "cin.gcount()" that I'm using is not updating as
+	quickly as I need it to.
+	Or may be that the thread opening the next file is not completing
+	fast enough. Should keep synchronized instead of detaching.
+	RESOLUTION:
+		It was a thread synchronization issue. I was detaching the thread
+		that opens up the next file stream for writing. Apparently this
+		set up was not completing quick enough. Removing the detach and
+		instead waiting with a join at the end of the loop seems to have
+		resolved this.
+
+
+
+================================================
+TO DO
+================================================
+
+- Modify concatAll to find zero length file as 
 - Make NUMFILES and CHARS_PER_FILE to be generated based on time parameters
   	Such as "RecordTime = 20 minutes" (total between all files) and "VideoFileSize = 2 seconds"
 
@@ -72,9 +93,11 @@ TO DO:
   1. Using "abort", "return 1", and "cerr" output.
   2. Exception throwing
 
-- Verify C++11 threads don't stay running as zombies when detached.
-  	As far as I can tell they don't, but I'm not familiar enough with this
-	new threading to be sure.
+- Revise README structure to use proper markdown formatting. I'm aware
+  	that I'm not using it properly, just doing my own thing until I have
+	time to research proper usage.
+
+- Create folder structure for source, binaries, and outputs
 
 - Use locks on variables modified in other thread.
    Ideally shouldn't need it, but it's definitely unsafe to assume
@@ -88,7 +111,9 @@ TO DO:
   1. [UNKNOWN] Shell piping into program
 				Currently using pipe in bash to get feed into program.
 				Using another method independent of the shell may be
-				more efficient.
+				more efficient. I could be wrong on this, piping may
+				not use the shell at all if it is just rerouting I/O
+				and forgetting about it.
   2. [MINIMAL] Opening and closing so many files
 				Not sure of a way around this. Need to open and close
 				files for each x number of bytes in order to prevent curruption
