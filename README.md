@@ -24,8 +24,13 @@ DEPENDENCIES:
 
 REVISION HISTORY:
 
+v0.2.2 - 2/1/2015
+		+ Organized project folder structure.
+		* Discovered issues #003 and #004.
+
 v0.2.1 - 1/31/2015
 		* Fixed Issue #002: Multiple zero length output files.
+		* (Hopefully) Fixed Issue #001: Video tearing.
 		+ concatAll script now finds correct file to start with (zero
 			length) on its own, instead of needing it to be passed in.
 
@@ -53,16 +58,28 @@ v0.1 - 4/23/2014: "Woo it works!"
 ISSUE LOG
 ================================================
 
+[003] - File opening and closing is taking too long. CIN buffer is likely
+	overflowing just as it was before implementing threading. Need to optimize
+	threading, or use more than the two IO streams used now.
+
+[004] - If not all NUMFILES number of video files have been created, concatAll
+	fails to find the correct number to start with.
+
+
+RESOLVED:
+
 [001] - Fix tearing on video. Only seems to be caused by my program,
   	does not happen with direct output of same video. Seem to be losing
 	just a few bytes every few seconds. Verified bytes in first h264 file
 	are the same in both, but bytes in second output file differ.
 	Trying different raspivid args to resolve, such as bitrate and
 	framerate changes.
+	RESOLUTION:
+		Seems to have been solved along with Issue #002. Looks like lack of
+		thread synchronization was probably causing the some of the output files
+		to keep some old data when they weren't opening quick enough before
+		the main thread attempted to write to it.
 
-
-
-RESOLVED:
 [002] - Multiple output files are being left empty, 0 bytes in size.
   	Might have to do with the loop conditions for the output to each
 	file. Perhaps the "cin.gcount()" that I'm using is not updating as
@@ -82,7 +99,6 @@ RESOLVED:
 TO DO
 ================================================
 
-- Modify concatAll to find zero length file as 
 - Make NUMFILES and CHARS_PER_FILE to be generated based on time parameters
   	Such as "RecordTime = 20 minutes" (total between all files) and "VideoFileSize = 2 seconds"
 
@@ -96,8 +112,6 @@ TO DO
 - Revise README structure to use proper markdown formatting. I'm aware
   	that I'm not using it properly, just doing my own thing until I have
 	time to research proper usage.
-
-- Create folder structure for source, binaries, and outputs
 
 - Use locks on variables modified in other thread.
    Ideally shouldn't need it, but it's definitely unsafe to assume

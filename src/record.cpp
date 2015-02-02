@@ -58,13 +58,13 @@ int main( int argc, char** argv )
 {
 
 	cout << "Starting..." << endl;
-	// Setup everything
+	// Set up WiringPi process 
 	if(wiringPiSetup() < 0)
 	{
 		cerr << "ERROR: WIRINGPISETUP, ITS BROKE!" << endl;
 		return 1;
 	}
-	// Setup interrupt
+	// Set up interrupt
 	if( wiringPiISR( AMP_PIN, INT_EDGE_RISING, &powerLoss ) < 0 )
 	{
 		cerr << "ERROR: ISR CREATION BROKEN." << endl;
